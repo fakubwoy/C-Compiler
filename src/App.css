@@ -92,3 +92,12 @@
   .token.type-operator {
     color: #aa6600;
   }
+  .parse-tree {
+    font-family: monospace;
+    white-space: pre;
+    margin-left: 20px;
+  }
+  
+  .tree-node {
+    margin: 2px 0;
+  }
