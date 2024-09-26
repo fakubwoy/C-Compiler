@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>C Code Tokenizer</h1>
+      <h1>C-Compiler-proto-</h1>
       <textarea
         rows="10"
         cols="50"
