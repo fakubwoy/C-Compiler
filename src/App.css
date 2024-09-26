@@ -26,14 +26,10 @@ h1 {
   margin-bottom: 20px;
 }
 
-textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  font-family: 'Monaco', monospace;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: none;
+h2 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #34495e;
 }
 
 button {
