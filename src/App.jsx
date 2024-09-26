@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { preprocessCode } from './utils/preprocessor';
 import { tokenizeCode } from './utils/tokenizer';
-import { parseTokens, ParseTreeNode } from './utils/parser';
+import { parseTokens } from './utils/parser';
 import './App.css';
 
 const TreeNode = ({ node, isLast, prefix = '' }) => {
@@ -54,7 +54,7 @@ function App() {
         placeholder="Enter your C code here"
       />
       <br />
-      <button onClick={handleCompile}>Tokenize</button>
+      <button onClick={handleCompile}>Compile</button>
       <h2>Preprocessed Code:</h2>
       <pre>{preprocessedCode}</pre>
       <h2>Tokens:</h2>
