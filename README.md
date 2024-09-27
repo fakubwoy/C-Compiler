@@ -25,11 +25,11 @@
 ## ToDo
 
 - [ ] Make documentation for code
-- [ ] Preprocessing
-- [ ] Lexical analysis
-- [ ] Syntax analysis / parse tree generation
-- [ ] Semantic analysis
-- [ ] Symbol table generation
+- [x] Preprocessing (proper header functioning handling left)
+- [x] Lexical analysis
+- [x] Syntax analysis / parse tree generation
+- [x] Semantic analysis
+- [x] Symbol table generation (bug-fixes remaining, discussed in issues)
 - [ ] Three address code generation
 - [ ] Optimization of TAC
 - [ ] Generation of x86 ASM
