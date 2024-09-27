@@ -5,6 +5,7 @@ import { tokenizeCode } from './utils/tokenizer';
 import { parseTokens } from './utils/parser';
 import { semanticAnalysis } from './utils/semanticAnalyzer';
 import { generateThreeAddressCode } from './utils/threeAddressCodeGenerator'; 
+import { optimizeTAC } from './utils/optimizer';
 import './App.css';
 
 const TreeNode = ({ node, isLast, prefix = '' }) => {
@@ -40,6 +41,7 @@ function App() {
   const [semanticResult, setSemanticResult] = useState(null);
   const [symbolTable, setSymbolTable] = useState([]);
   const [tacCode, setTacCode] = useState(''); 
+  const [optimizedTAC, setOptimizedTAC] = useState('');
   const editorRef = useRef(null);
 
   const handleEditorDidMount = (editor, monaco) => {
@@ -66,12 +68,17 @@ function App() {
         const tacCodeGenerated = generateThreeAddressCode(tree, semanticCheck.symbolTable);
         setTacCode(tacCodeGenerated); 
 
+        const optimizedCode = optimizeTAC(tacCodeGenerated);
+        setOptimizedTAC(optimizedCode);
+
     } catch (error) {
         setSemanticResult({
             success: false,
             message: `Error during compilation: ${error.message}`
         });
         setSymbolTable([]);
+        setTacCode('');
+        setOptimizedTAC('');
     }
   };
 
@@ -122,7 +129,6 @@ function App() {
           {semanticResult.message}
         </div>
       )}
-      
       <h2>Symbol Table:</h2>
       <div className="symbol-table">
         {symbolTable.length > 0 ? (
@@ -152,9 +158,10 @@ function App() {
           <p>No variables declared.</p>
         )}
       </div>
-
       <h2>Three Address Code (TAC):</h2>
       <pre>{tacCode}</pre>
+      <h2>Optimized Three Address Code:</h2>
+      <pre>{optimizedTAC}</pre>
     </div>
   );
 }
