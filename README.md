@@ -27,7 +27,7 @@
 - [ ] Make documentation for code
 - [x] Preprocessing
 - [x] Lexical analysis
-- [x] Syntax analysis / parse tree generation
+- [x] Syntax analysis / parse tree generation (Partially done)
    - [x] Generation of parse Tree
    - [ ] Assign rules:
       - [ ] Make sure every statement ends with ;
