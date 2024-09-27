@@ -27,13 +27,13 @@
 - [ ] Make documentation for code
 - [x] Preprocessing
 - [x] Lexical analysis
-- [x] Syntax analysis / parse tree generation (Partially done)
+- [ ] Syntax analysis / parse tree generation (Partially done)
    - [x] Generation of parse Tree
-   - [ ] Assign rules:
+   - [x] Assign rules:
       - [x] Make sure every statement ends with ;
       - [x] Make sure the code is contained in 'int main()'
-      - [ ] Make sure the variable declaration follows the expression: type name = value, where the value can be an expression as well
-   - [ ] Parse the tree making sure these rules are followed
+      - [x] Make sure the variable declaration follows the expression: type name = value, where the value can be an expression as well
+   - [x] Parse the tree making sure these rules are followed
    - [ ] If at any point a rule is not followed stop compilation and display the error.
 - [x] Semantic analysis
 - [x] Symbol table generation
