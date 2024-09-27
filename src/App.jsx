@@ -7,25 +7,29 @@ import { semanticAnalysis } from './utils/semanticAnalyzer';
 import './App.css';
 
 const TreeNode = ({ node, isLast, prefix = '' }) => {
+  if (!node) {
+      return <div className="tree-node">Error: Node is undefined</div>;
+  }
+
   const nodePrefix = prefix + (isLast ? '└── ' : '├── ');
-  const childPrefix = prefix + (isLast ? '    ' : '│   ');
 
   return (
-    <div>
-      <div className="tree-node">
-        {nodePrefix}{node.type}: {node.value}
+      <div>
+          <div className="tree-node">
+              {nodePrefix}{node.type || 'Unknown'}: {node.value || 'N/A'}
+          </div>
+          {node.children && node.children.map((child, index) => (
+              <TreeNode
+                  key={index}
+                  node={child}
+                  isLast={index === node.children.length - 1}
+                  prefix={prefix + (isLast ? '    ' : '│   ')}
+              />
+          ))}
       </div>
-      {node.children.map((child, index) => (
-        <TreeNode
-          key={index}
-          node={child}
-          isLast={index === node.children.length - 1}
-          prefix={childPrefix}
-        />
-      ))}
-    </div>
   );
 };
+
 
 function App() {
   const [code, setCode] = useState('');

@@ -27,8 +27,8 @@
 - [ ] Make documentation for code
 - [x] Preprocessing
 - [x] Lexical analysis
-- [x] Syntax analysis / parse tree generation
-- [x] Semantic analysis (MAJOR BUG!! discussed in issues)
+- [x] Syntax analysis / parse tree generation (proper exception handling left)
+- [x] Semantic analysis (proper exception handling left)
 - [x] Symbol table generation
 - [ ] Three address code generation
 - [ ] Optimization of TAC
