@@ -60,6 +60,8 @@ h2 {
 
 .token-list {
   padding: 10px;
+  max-height: 300px;
+  overflow-y:auto ;
 }
 
 .token {
