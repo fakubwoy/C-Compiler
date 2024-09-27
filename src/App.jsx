@@ -29,6 +29,7 @@ const TreeNode = ({ node, isLast, prefix = '' }) => {
 
 function App() {
   const [code, setCode] = useState('');
+  const [headers, setHeaders] = useState([]);
   const [preprocessedCode, setPreprocessedCode] = useState('');
   const [tokens, setTokens] = useState([]);
   const [parseTree, setParseTree] = useState(null);
@@ -42,27 +43,30 @@ function App() {
 
   const handleCompile = () => {
     try {
-      const currentCode = editorRef.current.getValue();
-      const result = preprocessCode(currentCode);
-      setPreprocessedCode(result);
-      
-      const tokenList = tokenizeCode(result);
-      setTokens(tokenList);
+        const currentCode = editorRef.current.getValue();
+        const { code: preprocessedCode, headers, totalHeaderLines } = preprocessCode(currentCode);
+        setPreprocessedCode(preprocessedCode);
+        
+        setHeaders(headers);
+        const tokenList = tokenizeCode(preprocessedCode);
+        setTokens(tokenList);
 
-      const tree = parseTokens(tokenList);
-      setParseTree(tree);
+        const tree = parseTokens(tokenList, headers); 
+        setParseTree(tree);
 
-      const semanticCheck = semanticAnalysis(tree);
-      setSemanticResult(semanticCheck);
-      setSymbolTable(semanticCheck.symbolTable);
+        const semanticCheck = semanticAnalysis(tree, totalHeaderLines); 
+        setSemanticResult(semanticCheck);
+        setSymbolTable(semanticCheck.symbolTable);
     } catch (error) {
-      setSemanticResult({
-        success: false,
-        message: `Error during compilation: ${error.message}`
-      });
-      setSymbolTable([]);
+        setSemanticResult({
+            success: false,
+            message: `Error during compilation: ${error.message}`
+        });
+        setSymbolTable([]);
     }
-  };
+};
+
+
 
   const formatUsageLines = (usageLines) => {
     if (Array.isArray(usageLines)) {

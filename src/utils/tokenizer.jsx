@@ -11,7 +11,7 @@ export function tokenizeCode(code) {
     ];
 
     let remainingCode = code;
-    let currentLine = 1;  // Track the current line number
+    let currentLine = 1;
 
     while (remainingCode.length > 0) {
         let matchFound = false;
@@ -23,10 +23,10 @@ export function tokenizeCode(code) {
                 if (type === 'WHITESPACE') {
                     const newlineMatches = match[0].match(/\n/g);
                     if (newlineMatches) {
-                        currentLine += newlineMatches.length;  // Increment line number for newlines
+                        currentLine += newlineMatches.length; 
                     }
                 } else {
-                    tokens.push({ type, value: match[0], line: currentLine });  // Track line number
+                    tokens.push({ type, value: match[0], line: currentLine });
                 }
                 remainingCode = remainingCode.slice(match[0].length);
                 matchFound = true;
