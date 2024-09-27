@@ -4,7 +4,7 @@ import { preprocessCode } from './utils/preprocessor';
 import { tokenizeCode } from './utils/tokenizer';
 import { parseTokens } from './utils/parser';
 import { semanticAnalysis } from './utils/semanticAnalyzer';
-import { generateThreeAddressCode } from './utils/threeAddressCodeGenerator'; // Import TAC generator
+import { generateThreeAddressCode } from './utils/threeAddressCodeGenerator'; 
 import './App.css';
 
 const TreeNode = ({ node, isLast, prefix = '' }) => {
@@ -39,7 +39,7 @@ function App() {
   const [parseTree, setParseTree] = useState(null);
   const [semanticResult, setSemanticResult] = useState(null);
   const [symbolTable, setSymbolTable] = useState([]);
-  const [tacCode, setTacCode] = useState(''); // Store TAC code
+  const [tacCode, setTacCode] = useState(''); 
   const editorRef = useRef(null);
 
   const handleEditorDidMount = (editor, monaco) => {
@@ -63,9 +63,8 @@ function App() {
         setSemanticResult(semanticCheck);
         setSymbolTable(semanticCheck.symbolTable);
 
-        // Generate three-address code after semantic analysis
         const tacCodeGenerated = generateThreeAddressCode(tree, semanticCheck.symbolTable);
-        setTacCode(tacCodeGenerated); // Set the TAC code to display
+        setTacCode(tacCodeGenerated); 
 
     } catch (error) {
         setSemanticResult({
@@ -155,7 +154,7 @@ function App() {
       </div>
 
       <h2>Three Address Code (TAC):</h2>
-      <pre>{tacCode}</pre> {/* Display the generated TAC */}
+      <pre>{tacCode}</pre>
     </div>
   );
 }
