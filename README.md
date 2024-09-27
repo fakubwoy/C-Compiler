@@ -38,5 +38,5 @@
 - [x] Semantic analysis
 - [x] Symbol table generation
 - [x] Three address code generation
-- [ ] Optimization of TAC
+- [x] Optimization of TAC
 - [ ] Generation of x86 ASM
