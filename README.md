@@ -30,8 +30,8 @@
 - [x] Syntax analysis / parse tree generation (Partially done)
    - [x] Generation of parse Tree
    - [ ] Assign rules:
-      - [ ] Make sure every statement ends with ;
-      - [ ] Make sure the code is contained in 'int main()'
+      - [x] Make sure every statement ends with ;
+      - [x] Make sure the code is contained in 'int main()'
       - [ ] Make sure the variable declaration follows the expression: type name = value, where the value can be an expression as well
    - [ ] Parse the tree making sure these rules are followed
    - [ ] If at any point a rule is not followed stop compilation and display the error.

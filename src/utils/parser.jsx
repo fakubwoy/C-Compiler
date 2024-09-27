@@ -10,15 +10,21 @@ export class ParseTreeNode {
     }
 }
 
-export function parseTokens(tokens, headers) {
+export function parseTokens(tokens) {
     let index = 0;
 
     function parseFunction() {
         const node = new ParseTreeNode('Function', tokens[index + 1].value);
         node.line = tokens[index + 1].line;
         index += 2; 
+        index++;
         index++; 
+
+        if (tokens[index]?.value !== '{') {
+            throw new SyntaxError(`Expected '{' at line ${tokens[index].line}`);
+        }
         index++; 
+        
         while (index < tokens.length && tokens[index].value !== '}') {
             if (tokens[index].type === 'KEYWORD' && (tokens[index].value === 'int' || tokens[index].value === 'float')) {
                 node.addChild(parseDeclaration());
@@ -27,6 +33,10 @@ export function parseTokens(tokens, headers) {
             } else {
                 index++;
             }
+        }
+        
+        if (tokens[index]?.value !== '}') {
+            throw new SyntaxError(`Expected '}' at line ${tokens[index].line}`);
         }
         index++; 
         return node;
@@ -37,20 +47,30 @@ export function parseTokens(tokens, headers) {
         index++; 
         const identifier = tokens[index].value; 
         const declarationNode = new ParseTreeNode('Declaration', `${type} ${identifier}`);
-        declarationNode.line = tokens[index].line;
+        declarationNode.line = tokens[index].line;  
         index++; 
         index++; 
         declarationNode.addChild(parseExpression());
+        
+        if (tokens[index]?.value !== ';') {
+            throw new SyntaxError(`Expected ';' at line ${tokens[index].line}`);
+        }
         index++; 
+        
         return declarationNode;
     }
 
     function parseReturn() {
         const returnNode = new ParseTreeNode('Return', 'return');
-        returnNode.line = tokens[index].line;
+        returnNode.line = tokens[index].line;  
         index++; 
         returnNode.addChild(parseExpression());
+        
+        if (tokens[index]?.value !== ';') {
+            throw new SyntaxError(`Expected ';' at line ${tokens[index].line}`);
+        }
         index++; 
+        
         return returnNode;
     }
 
@@ -59,7 +79,7 @@ export function parseTokens(tokens, headers) {
 
         if (tokens[index].type === 'NUMBER') {
             expressionNode = new ParseTreeNode('Number', tokens[index].value);
-            expressionNode.line = tokens[index].line; 
+            expressionNode.line = tokens[index].line;  
             index++;
         } else if (tokens[index].type === 'IDENTIFIER') {
             expressionNode = new ParseTreeNode('Identifier', tokens[index].value);
@@ -82,10 +102,10 @@ export function parseTokens(tokens, headers) {
     function parse() {
         const root = new ParseTreeNode('Program', 'Root');
 
-        headers.forEach(header => {
-            root.addChild(new ParseTreeNode('Include', `<${header.header}>`));
-        });
-
+        if (tokens[index]?.value !== 'int' || tokens[index + 1]?.value !== 'main') {
+            throw new SyntaxError(`Expected 'int main()' at line ${tokens[index].line}`);
+        }
+        
         root.addChild(parseFunction());
         return root;
     }
