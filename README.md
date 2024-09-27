@@ -28,6 +28,7 @@
 - [x] Preprocessing
 - [x] Lexical analysis
 - [x] Syntax analysis / parse tree generation
+   - [x] Generation of parse Tree
    - [ ] Assign rules:
       - [ ] Make sure every statement ends with ;
       - [ ] Make sure the code is contained in 'int main()'
