@@ -10,7 +10,7 @@ export class ParseTreeNode {
     }
 }
 
-export function parseTokens(tokens,headers) {
+export function parseTokens(tokens) {
     let index = 0;
 
     function parseFunction() {
