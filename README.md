@@ -27,7 +27,13 @@
 - [ ] Make documentation for code
 - [x] Preprocessing
 - [x] Lexical analysis
-- [x] Syntax analysis / parse tree generation (TODO: assigning rules, using recursive descent parsing or any parsing of choice to check syntax,proper exception handling,i.e, display statement like 'expected ; at the end of statement 3' 'improper type assigned to y', etc)
+- [x] Syntax analysis / parse tree generation
+   - [ ] Assign rules:
+      - [ ] Make sure every statement ends with ;
+      - [ ] Make sure the code is contained in 'int main()'
+      - [ ] Make sure the variable declaration follows the expression: type name = value, where the value can be an expression as well
+   - [ ] Parse the tree making sure these rules are followed
+   - [ ] If at any point a rule is not followed stop compilation and display the error.
 - [x] Semantic analysis
 - [x] Symbol table generation
 - [ ] Three address code generation
