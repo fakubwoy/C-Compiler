@@ -37,6 +37,6 @@
    - [ ] If at any point a rule is not followed stop compilation and display the error.
 - [x] Semantic analysis
 - [x] Symbol table generation
-- [ ] Three address code generation
+- [x] Three address code generation
 - [ ] Optimization of TAC
 - [ ] Generation of x86 ASM
