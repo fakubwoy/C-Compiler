@@ -27,7 +27,7 @@
 - [ ] Make documentation for code
 - [x] Preprocessing
 - [x] Lexical analysis
-- [x] Syntax analysis / parse tree generation (proper exception handling left)
+- [x] Syntax analysis / parse tree generation (TODO: assigning rules, using recursive descent parsing to check syntax,proper exception handling)
 - [x] Semantic analysis (proper exception handling left)
 - [x] Symbol table generation
 - [ ] Three address code generation
