@@ -76,8 +76,17 @@ export function parseTokens(tokens) {
 
     function parseExpression() {
         let expressionNode;
-
-        if (tokens[index].type === 'NUMBER') {
+        
+        if (tokens[index]?.value === '(') {
+            index++;
+            expressionNode = parseExpression();
+    
+            if (tokens[index]?.value !== ')') {
+                throw new SyntaxError(`Expected ')' at line ${tokens[index].line}`);
+            }
+            index++;
+        } 
+        else if (tokens[index].type === 'NUMBER') {
             expressionNode = new ParseTreeNode('Number', tokens[index].value);
             expressionNode.line = tokens[index].line;  
             index++;
