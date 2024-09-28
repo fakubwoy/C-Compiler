@@ -27,16 +27,19 @@
 - [ ] Make documentation for code
 - [x] Preprocessing
 - [x] Lexical analysis
+   - [ ] Add more tokens to handle more data types and print statements
 - [ ] Syntax analysis / parse tree generation (Partially done)
    - [x] Generation of parse Tree
    - [x] Assign rules:
       - [x] Make sure every statement ends with ;
       - [x] Make sure the code is contained in 'int main()'
-      - [x] Make sure the variable declaration follows the expression: type name = value, where the value can be an expression as well
+      - [x] Make sure the variable declaration follows the expression: 
+      type name = value, where the value can be an expression as well
+      - [ ] Add more rules
    - [x] Parse the tree making sure these rules are followed
    - [ ] If at any point a rule is not followed stop compilation and display the error.
 - [x] Semantic analysis
 - [x] Symbol table generation
 - [x] Three address code generation
 - [x] Optimization of TAC
-- [ ] Generation of x86 ASM
+- [x] Generation of x86 ASM
