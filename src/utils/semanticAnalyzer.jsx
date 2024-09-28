@@ -1,3 +1,5 @@
+import React from 'react';
+
 class SemanticError extends Error {
     constructor(message) {
         super(message);
@@ -31,7 +33,7 @@ class SymbolTable {
             type,
             scope,
             declarationLine,
-            usageLines: usageLines.join(', ')
+            usageLines: Array.isArray(usageLines) ? usageLines.join(', ') : 'N/A'
         }));
     }
 }
@@ -39,13 +41,14 @@ class SymbolTable {
 export function semanticAnalysis(parseTree, totalHeaderLines) {
     const symbolTable = new SymbolTable();
     let currentLine = totalHeaderLines + 1;
+
     function analyzeNode(node, scope = 'global') {
         if (!node) {
             return; 
         }
         switch (node.type) {
             case 'Program':
-                node.children.forEach(analyzeNode);
+                node.children.forEach(child => analyzeNode(child));
                 break;
             case 'Include':
                 break;
@@ -66,8 +69,7 @@ export function semanticAnalysis(parseTree, totalHeaderLines) {
                 analyzeNode(node.children[0], scope);
                 break;
             case 'Expression':
-                analyzeNode(node.children[0], scope);
-                analyzeNode(node.children[1], scope);
+                node.children.forEach(child => analyzeNode(child, scope));
                 break;
             case 'Identifier':
                 return symbolTable.getVariableType(node.value, totalHeaderLines + node.line);
