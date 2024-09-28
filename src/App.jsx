@@ -6,6 +6,7 @@ import { parseTokens } from './utils/parser';
 import { semanticAnalysis } from './utils/semanticAnalyzer';
 import { generateThreeAddressCode } from './utils/threeAddressCodeGenerator'; 
 import { optimizeTAC } from './utils/optimizer';
+import { generateX86Assembly } from './utils/x86ARMGenerator'; 
 import './App.css';
 
 const TreeNode = ({ node, isLast, prefix = '' }) => {
@@ -42,6 +43,7 @@ function App() {
   const [symbolTable, setSymbolTable] = useState([]);
   const [tacCode, setTacCode] = useState(''); 
   const [optimizedTAC, setOptimizedTAC] = useState('');
+  const [x86AssemblyCode, setX86AssemblyCode] = useState('');
   const editorRef = useRef(null);
 
   const handleEditorDidMount = (editor, monaco) => {
@@ -71,6 +73,9 @@ function App() {
         const optimizedCode = optimizeTAC(tacCodeGenerated);
         setOptimizedTAC(optimizedCode);
 
+        const x86AssemblyCodeGenerated = generateX86Assembly(optimizedCode);
+        setX86AssemblyCode(x86AssemblyCodeGenerated);
+
     } catch (error) {
         setSemanticResult({
             success: false,
@@ -79,6 +84,7 @@ function App() {
         setSymbolTable([]);
         setTacCode('');
         setOptimizedTAC('');
+        setX86ARMCode('');
     }
   };
 
@@ -162,6 +168,8 @@ function App() {
       <pre>{tacCode}</pre>
       <h2>Optimized Three Address Code:</h2>
       <pre>{optimizedTAC}</pre>
+      <h2>x86 Assembly Code:</h2>
+      <pre>{x86AssemblyCode}</pre>
     </div>
   );
 }
