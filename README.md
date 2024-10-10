@@ -43,3 +43,4 @@
 - [x] Three address code generation
 - [x] Optimization of TAC
 - [x] Generation of x86 ASM
+- [ ] Make exe for asm
