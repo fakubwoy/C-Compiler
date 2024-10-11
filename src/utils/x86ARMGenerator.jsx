@@ -10,7 +10,6 @@ class X86AssemblyGenerator {
     }
   
     generateAssembly(tac) {
-      console.log("Generating assembly for TAC:", tac);
       const lines = tac.split('\n');
       this.dataSection.push('section .data');
       this.textSection.push('section .text');
