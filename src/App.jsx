@@ -50,7 +50,7 @@ function App() {
     editorRef.current = editor;
   };
 
-  const handleCompile = () => {
+  const handleCompile = async () => {
     try {
         const currentCode = editorRef.current.getValue();
         const { code: preprocessedCode, headers, totalHeaderLines } = preprocessCode(currentCode);
@@ -75,6 +75,28 @@ function App() {
 
         const x86AssemblyCodeGenerated = generateX86Assembly(optimizedCode);
         setX86AssemblyCode(x86AssemblyCodeGenerated);
+
+        const response = await fetch('http://localhost:5000/compile', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code: x86AssemblyCodeGenerated }),
+      });
+
+      if (response.ok) {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'output';
+          a.click();
+      } else {
+          setSemanticResult({
+              success: false,
+              message: 'Error compiling assembly code.'
+          });
+      }
 
     } catch (error) {
         setSemanticResult({
