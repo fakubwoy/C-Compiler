@@ -15,6 +15,9 @@
 3. Install the dependencies:
    ```bash
    npm install
+   cd server
+   npm install
+   cd ..
    ```
 
 4. Start the development server:
@@ -43,4 +46,4 @@
 - [x] Three address code generation
 - [x] Optimization of TAC
 - [x] Generation of x86 ASM
-- [ ] Make exe for asm
+- [x] Make exe for asm
