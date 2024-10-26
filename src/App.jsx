@@ -7,6 +7,7 @@ import { semanticAnalysis } from './utils/semanticAnalyzer';
 import { generateThreeAddressCode } from './utils/threeAddressCodeGenerator'; 
 import { optimizeTAC } from './utils/optimizer';
 import { generateX86Assembly } from './utils/x86ARMGenerator'; 
+import Chatbot from './components/Chatbot';
 import './App.css';
 
 const TreeNode = ({ node, isLast, prefix = '' }) => {
@@ -192,6 +193,7 @@ function App() {
       <pre>{optimizedTAC}</pre>
       <h2>x86 Assembly Code:</h2>
       <pre>{x86AssemblyCode}</pre>
+      <Chatbot />
     </div>
   );
 }
