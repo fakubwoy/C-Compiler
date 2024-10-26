@@ -47,3 +47,6 @@
 - [x] Optimization of TAC
 - [x] Generation of x86 ASM
 - [x] Make exe for asm
+- [ ] Chatbot
+   - [x] Make Framework
+   - [ ] Choose appropriate model
