@@ -194,6 +194,12 @@
   .typing-dot:nth-child(3) {
     animation-delay: 0.4s;
   }
+
+  #send{
+    width: 30px;
+    height: 27px;
+  }
+
   
   @keyframes typingAnimation {
     0%, 60%, 100% {
