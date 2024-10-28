@@ -130,12 +130,16 @@ app.post('/chat', async (req, res) => {
 
 function identifyPhase(question) {
   const overviewPatterns = [
-    'phases',
-    'steps',
-    'stages',
-    'process',
-    'overview',
-    'explain compilation'
+    'what is compilation',
+    'what is compiler',
+    'what is the compiler',
+    'what does the compiler do',
+    'what is the purpose of the compiler',
+    'what are the phases of compilation',
+    'what are the steps of compilation',
+    'what are the stages of compilation',
+    'what are the components of compilation',
+    'what are the parts of compilation',
   ];
   
   if (overviewPatterns.some(pattern => question.toLowerCase().includes(pattern))) {
