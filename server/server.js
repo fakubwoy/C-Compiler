@@ -144,6 +144,8 @@ function identifyPhase(question) {
   const phaseKeywords = {
     'pre': 'PREPROCESSING',
     'preprocessing': 'PREPROCESSING',
+    'process': 'PREPROCESSING',
+    'pro': 'PREPROCESSING',
     'macro': 'PREPROCESSING',
     'header': 'PREPROCESSING',
     'preprocessor': 'PREPROCESSING',
@@ -180,6 +182,7 @@ function cleanResponse(response, context) {
     .replace(/This process is also known as.*?\./, '')
     .replace(/^(Answer:|Assistant:|Here is the definition of|Let me help you understand|The|This is)/gi, '')
     .replace(/PREPROCESSING:|LEXICAL_ANALYSIS:|SYNTAX_ANALYSIS:|SEMANTIC_ANALYSIS:|INTERMEDIATE_CODE_GENERATION:|OPTIMIZATION:|CODE_GENERATION:|CODE_EMISSION:|CODE_EXECUTION:/gi, '')
+    .replace(/PREPROCESSING|LEXICAL_ANALYSIS|SYNTAX_ANALYSIS|SEMANTIC_ANALYSIS|INTERMEDIATE_CODE_GENERATION|OPTIMIZATION|CODE_GENERATION|CODE_EMISSION|CODE_EXECUTION/gi, '')
     .replace(/Definition:\s*/i, '')
     .replace(/User:\s*[^?]*\?/g, '')
     .replace(/.*?Directives:/, '')
