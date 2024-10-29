@@ -30,8 +30,8 @@
 # **To-Do List**
 
 ## 1. Documentation  
-- [ ] Create comprehensive code documentation  
-- [ ] Add usage examples and installation steps  
+- [x] Create comprehensive code documentation  
+- [x] Add usage examples and installation steps  
 
 ## 2. Lexical Analysis  
 - [x] Preprocessing  
@@ -49,8 +49,8 @@
    - [ ] Define and implement additional syntax rules  
 
 - [x] Parse Tree Validation:  
-   - [ ] Enforce rule compliance during parsing  
-   - [ ] Stop compilation and display an error on rule violation  
+   - [x] Enforce rule compliance during parsing  
+   - [x] Stop compilation and display an error on rule violation  
 
 ## 4. Semantic Analysis  
 - [x] Perform semantic checks  
@@ -67,5 +67,5 @@
 ## 7. Chatbot Integration  
 - [x] Build chatbot framework  
 - [ ] Choose an appropriate NLP/AI model  
-- [ ] Integrate model into the chatbot for interaction  
+- [x] Integrate model into the chatbot for interaction  
 - [ ] Test for natural responses and error handling  
