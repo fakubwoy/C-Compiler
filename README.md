@@ -27,26 +27,45 @@
 
 ## ToDo
 
-- [ ] Make documentation for code
-- [x] Preprocessing
-- [x] Lexical analysis
-   - [ ] Add more tokens to handle more data types and print statements
-- [ ] Syntax analysis / parse tree generation (Partially done)
-   - [x] Generation of parse Tree
-   - [x] Assign rules:
-      - [x] Make sure every statement ends with ;
-      - [x] Make sure the code is contained in 'int main()'
-      - [x] Make sure the variable declaration follows the expression: 
-      type name = value, where the value can be an expression as well
-      - [ ] Add more rules
-   - [x] Parse the tree making sure these rules are followed
-   - [ ] If at any point a rule is not followed stop compilation and display the error.
-- [x] Semantic analysis
-- [x] Symbol table generation
-- [x] Three address code generation
-- [x] Optimization of TAC
-- [x] Generation of x86 ASM
-- [x] Make exe for asm
-- [ ] Chatbot
-   - [x] Make Framework
-   - [ ] Choose appropriate model
+# **To-Do List**
+
+## 1. Documentation  
+- [ ] Create comprehensive code documentation  
+- [ ] Add usage examples and installation steps  
+
+## 2. Lexical Analysis  
+- [x] Preprocessing  
+- [x] Tokenization  
+   - [ ] Add support for more data types  
+   - [ ] Handle additional print/output statements  
+
+## 3. Syntax Analysis (Parse Tree Generation)  
+- [x] Parse Tree Generation  
+- [x] Rule Assignments:  
+   - [x] Ensure every statement ends with `;`  
+   - [x] Enclose the code inside `int main()`  
+   - [x] Validate variable declarations follow:  
+     `type name = value` (where `value` can be an expression)  
+   - [ ] Define and implement additional syntax rules  
+
+- [x] Parse Tree Validation:  
+   - [ ] Enforce rule compliance during parsing  
+   - [ ] Stop compilation and display an error on rule violation  
+
+## 4. Semantic Analysis  
+- [x] Perform semantic checks  
+- [x] Generate symbol table  
+
+## 5. Intermediate Code Generation  
+- [x] Generate Three-Address Code (TAC)  
+- [x] Optimize TAC  
+
+## 6. Assembly and Compilation  
+- [x] Generate x86 Assembly code  
+- [x] Compile ASM to executable (`.exe`)  
+
+## 7. Chatbot Integration  
+- [x] Build chatbot framework  
+- [ ] Choose an appropriate NLP/AI model  
+- [ ] Integrate model into the chatbot for interaction  
+- [ ] Test for natural responses and error handling  
