@@ -65,13 +65,7 @@ app.post('/chat', async (req, res) => {
   let fullPrompt;
   if (phase === 'OVERVIEW') {
     fullPrompt = `The compilation process consists of: 
-    Preprocessing - handles expanding macros and including header files.
-    Lexical Analysis - breaks down code into tokens.
-    Syntax Analysis - creates parse tree from tokens.
-    Semantic Analysis - checks semantic consistency.
-    Intermediate Code Generation - creates platform-independent representation.
-    Optimization - improves code performance.
-    Code Generation - converts to machine code.`;
+    Preprocessing, Lexical Analysis, Syntax Analysis, Semantic Analysis, Intermediate Code Generation, Optimization, Code Generation`;
   } else {
     fullPrompt = `${CONTEXT}\n\nUser: ${message}\nAssistant: ${phase ? `Here is the definition of the ${phase} phase:` : 'Let me help you understand the compilation process.'} `;
   }
