@@ -25,8 +25,6 @@
    npm run dev
    ```
 
-## ToDo
-
 # **To-Do List**
 
 ## 1. Documentation  
