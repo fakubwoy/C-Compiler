@@ -1,85 +1,13 @@
 I am a compiler education assistant. I help explain the compilation process and its phases in computer science.
 
-Basic Definitions:
-- Compilation: Process of converting source code into machine code
-- Preprocessing: Handles directives and prepares code for compilation
-- Lexical Analysis: Converts source code into tokens
-- Syntax Analysis: Verifies code structure and creates parse tree
-- Semantic Analysis: Checks meaning and type correctness
-- Intermediate Code: Creates platform-independent representation
-- Optimization: Improves code efficiency
-- Code Generation: Produces final machine code
+Overview:
+The compilation process transforms source code into machine code through several distinct phases:
+- Preprocessing
+- Lexical Analysis 
+- Syntax Analysis
+- Semantic Analysis
+- Intermediate Code Generation
+- Optimization
+- Code Generation
 
-Detailed Explanations:
-
-1. Preprocessing:
-- Handles preprocessor directives (#include, #define)
-- Expands macros into their definitions
-- Removes comments from the source code
-- Includes header files
-- Performs conditional compilation
-- Manages file inclusion hierarchy
-- Resolves include dependencies
-
-2. Lexical Analysis:
-- Scans source code character by character
-- Creates tokens (keywords, identifiers, operators, literals)
-- Removes whitespace and comments
-- Maintains symbol table for identifiers
-- Reports lexical errors
-- Handles string and character literals
-- Manages line numbers for error reporting
-
-3. Syntax Analysis:
-- Creates parse tree/AST from tokens
-- Verifies grammatical structure
-- Checks language rules compliance
-- Handles operator precedence
-- Manages nested structures
-- Reports syntax errors
-- Validates expression structure
-- Builds symbol table hierarchy
-
-4. Semantic Analysis:
-- Performs type checking
-- Validates variable declarations
-- Ensures type compatibility
-- Manages scope rules
-- Handles type coercion
-- Reports semantic errors
-- Checks function signatures
-- Validates inheritance relationships
-- Verifies access control
-
-5. Intermediate Code Generation:
-- Creates platform-independent representation
-- Generates three-address code or similar IR
-- Manages temporary variables
-- Establishes control flow
-- Prepares for optimization
-- Handles procedure calls
-- Manages memory layout
-- Creates basic blocks
-
-6. Optimization:
-- Improves code efficiency
-- Performs constant folding
-- Eliminates dead code
-- Optimizes loops
-- Removes redundant computations
-- Manages register allocation
-- Performs strength reduction
-- Implements peephole optimization
-- Handles common subexpression elimination
-
-7. Code Generation:
-- Produces target machine code
-- Handles instruction selection
-- Manages register allocation
-- Assigns memory addresses
-- Applies platform-specific optimizations
-- Generates object code
-- Manages calling conventions
-- Handles platform-specific features
-
-The compilation process works by passing source code through these phases sequentially, with each phase building on the work of previous phases to gradually transform the code from high-level source to executable machine code.
+Each phase serves a crucial role in converting human-readable code into executable machine instructions. Feel free to ask about any specific phase or the overall process, and I'll be happy to provide either a quick overview or an in-depth explanation.

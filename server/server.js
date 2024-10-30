@@ -21,10 +21,6 @@ try {
   process.exit(1);
 }
 
-const contextParts = CONTEXT.split('Detailed Explanations:');
-const BASIC_CONTEXT = contextParts[0];
-const DETAILED_CONTEXT = contextParts[1];
-
 const huggingFaceApi = axios.create({
   baseURL: 'https://api-inference.huggingface.co',
   headers: {
@@ -34,111 +30,91 @@ const huggingFaceApi = axios.create({
   timeout: 30000
 });
 
-
-function getBasicDefinition(topic) {
-  const definitions = BASIC_CONTEXT.split('\n')
-    .filter(line => line.includes(':'))
-    .map(line => {
-      const [key, value] = line.split(':').map(part => part.trim());
-      return { key: key.toLowerCase(), value };
-    });
-
-  const found = definitions.find(def => 
-    def.key.includes(topic.toLowerCase()) ||
-    topic.toLowerCase().includes(def.key)
-  );
-
-  return found ? found.value : null;
+function isGreeting(message) {
+  return /^(hi|hello|hey|greetings|good (morning|afternoon|evening))$/i.test(message.trim());
 }
 
-function getDetailedExplanation(topic) {
-  const sections = DETAILED_CONTEXT.split(/\d+\.\s+/).filter(Boolean);
-  
-  const found = sections.find(section => {
-    const firstLine = section.split('\n')[0].toLowerCase();
-    return firstLine.includes(topic.toLowerCase());
-  });
-
-  if (found) {
-    const bulletPoints = found.split('\n')
-      .filter(line => line.trim().startsWith('-'))
-      .map(line => line.trim().substring(2)) 
-      .join('\n\n• '); 
-    
-    return `Here's a detailed explanation of ${topic}:\n\n• ${bulletPoints}\n`;
-  }
-  
-  return null;
+function isOverviewQuestion(message) {
+  return /what (is|are) (the )?(compiler|compilation|process|phases|steps|stages)/i.test(message);
 }
 
-function generatePrompt(message) {
-  if (/^(hi|hello|hey|greetings|good (morning|afternoon|evening))$/i.test(message.trim())) {
-    return "Hello! I'm here to help you understand the compilation process and its phases. Feel free to ask me anything about compilation!";
-  }
-
-  const topics = [
-    'compilation', 'preprocessing', 'lexical analysis', 'syntax analysis',
-    'semantic analysis', 'intermediate code', 'optimization', 'code generation'
+function isCompilerPhaseQuestion(message) {
+  const phases = [
+    'preprocessing', 'lexical analysis', 'syntax analysis',
+    'semantic analysis', 'intermediate code', 'optimization', 
+    'code generation', 'compiler', 'compilation'
   ];
-
-  const matchedTopic = topics.find(topic => 
-    message.toLowerCase().includes(topic.toLowerCase())
-  );
-
-  if (/what (is|are) (the )?(compiler|compilation|process|phases|steps|stages)/i.test(message)) {
-    return `The compilation process is the transformation of source code into machine code. It consists of seven main phases: preprocessing, lexical analysis, syntax analysis, semantic analysis, intermediate code generation, optimization, and code generation. Each phase performs a specific task in converting high-level code into executable format.`;
-  }
-
-  if (!matchedTopic) {
-    return `${BASIC_CONTEXT}\n\nUser message: ${message}\n\nResponse:`;
-  }
-
-  const isDetailedRequest = /explain|tell me more|in depth|detailed|how|describe/i.test(message);
-
-  if (isDetailedRequest) {
-    const detailedExplanation = getDetailedExplanation(matchedTopic);
-    if (detailedExplanation) {
-      return detailedExplanation;
-    }
-  }
-
-  const basicDefinition = getBasicDefinition(matchedTopic);
-  return basicDefinition || "I don't have specific information about that topic.";
+  
+  return phases.some(phase => message.toLowerCase().includes(phase.toLowerCase()));
 }
 
-function cleanResponse(response) {
+function isDetailedRequest(message) {
+  return /explain|tell me more|in depth|detailed|how|describe|elaborate/i.test(message);
+}
+
+function generatePrompt(message, isDetailed) {
+  const basePrompt = "You are a compiler education expert. Provide a";
+  const detailLevel = isDetailed ? 
+    "detailed explanation in 6-8 complete sentences about" : 
+    "brief explanation in 1-2 sentences about";
+  
+  return `${basePrompt} ${detailLevel} ${message}. ${isDetailed ? 'Cover the key concepts, components, and their relationships.' : 'Focus only on the core concept.'} The response must be complete and not cut off mid-sentence.`;
+}
+
+function handleGreeting() {
+  return "Hello! I'm here to help you understand the compilation process and its phases. Feel free to ask me anything about compilation!";
+}
+
+function handleOverview() {
+  return `The compilation process transforms source code into machine code through several phases: preprocessing, lexical analysis, syntax analysis, semantic analysis, intermediate code generation, optimization, and code generation. Each phase performs a specific task in converting high-level code into executable format. Feel free to ask about any specific phase!`;
+}
+
+async function getAIResponse(message, isDetailed) {
+  const prompt = generatePrompt(message, isDetailed);
+  
+  const apiResponse = await huggingFaceApi.post(
+    '/models/microsoft/Phi-3-mini-4k-instruct',
+    {
+      inputs: prompt,
+      parameters: {
+        max_new_tokens: isDetailed ? 500 : 150,
+        return_full_text: false,
+        do_sample: true,
+        temperature: 0.4,
+        top_p: 0.9,
+        presence_penalty: 0.6,
+        frequency_penalty: 0.6
+      }
+    }
+  );
+
+  const responseText = Array.isArray(apiResponse.data) 
+    ? (apiResponse.data[0]?.generated_text || apiResponse.data[0]?.text)
+    : (apiResponse.data?.generated_text || apiResponse.data?.text);
+
+  return cleanResponse(responseText, isDetailed);
+}
+
+function cleanResponse(response, isDetailed) {
   if (!response) return '';
   
   let cleaned = response
-    .replace(new RegExp(CONTEXT.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '')
     .replace(/^(As an AI language model,|Let me|I will|I can|I am|Here's|According to|Let's|Alright,|Okay,)/i, '')
     .replace(/(User|Assistant|Human):\s*/g, '')
-    .replace(/^(PREPROCESSING|LEXICAL_ANALYSIS|SYNTAX_ANALYSIS|SEMANTIC_ANALYSIS|INTERMEDIATE_CODE_GENERATION|OPTIMIZATION|CODE_GENERATION):/gim, '')
     .replace(/^\d+\.\s*/gm, '')
     .replace(/^(Can you|Could you|Please|I want to know|Tell me|Explain|What is|How does).*\?/i, '')
     .replace(/\s+/g, ' ')
     .trim();
 
-  const sentences = cleaned.match(/[^.!?]+[.!?]+/g) || [];
-  if (sentences.length > 0) {
-    let finalResponse = '';
-    let currentLength = 0;
-    
-    for (const sentence of sentences) {
-      if (currentLength + sentence.length <= 300) {
-        finalResponse += sentence;
-        currentLength += sentence.length;
-      } else {
-        break;
-      }
-    }
-    
-    return finalResponse.trim();
-  }
+  const sentences = cleaned.match(/[^.!?]+(?:[.!?](?![\d])|[.!?]$)+/g) || [];
   
-  return cleaned;
+  const maxSentences = isDetailed ? 8 : 2;
+  
+  return sentences
+    .slice(0, maxSentences)
+    .join(' ')
+    .trim();
 }
-
 
 app.post('/chat', async (req, res) => {
   const { message } = req.body;
@@ -148,36 +124,30 @@ app.post('/chat', async (req, res) => {
   }
 
   try {
-    const response = generatePrompt(message);
-    
-    if (/^(hi|hello|hey|greetings|good (morning|afternoon|evening))$/i.test(message.trim()) ||
-        response.length < 500) { 
-      return res.json({ reply: response });
+    if (isGreeting(message)) {
+      return res.json({ reply: handleGreeting() });
     }
 
-    const apiResponse = await huggingFaceApi.post(
-      '/models/microsoft/Phi-3-mini-4k-instruct',
-      {
-        inputs: response,
-        parameters: {
-          max_new_tokens: 500,
-          return_full_text: false,
-          do_sample: true,
-          temperature: 0.3,
-          top_p: 0.9,
-          presence_penalty: 0.6,
-          frequency_penalty: 0.6
-        }
+    if (isOverviewQuestion(message)) {
+      return res.json({ reply: handleOverview() });
+    }
+
+    if (isCompilerPhaseQuestion(message)) {
+      const isDetailed = isDetailedRequest(message);
+      const aiResponse = await getAIResponse(message, isDetailed);
+      
+      if (!aiResponse) {
+        return res.json({ 
+          reply: "I apologize, but I couldn't generate a proper response. Could you please rephrase your question?" 
+        });
       }
-    );
+      
+      return res.json({ reply: aiResponse });
+    }
 
-    let finalResponse = Array.isArray(apiResponse.data) 
-      ? (apiResponse.data[0]?.generated_text || apiResponse.data[0]?.text)
-      : (apiResponse.data?.generated_text || apiResponse.data?.text);
-    
-    finalResponse = cleanResponse(finalResponse);
-
-    res.json({ reply: finalResponse || response }); 
+    return res.json({ 
+      reply: "I'm specialized in explaining compiler concepts and phases. Could you please ask something specific about the compilation process or any of its phases?" 
+    });
 
   } catch (error) {
     console.error('Error details:', {
@@ -186,11 +156,6 @@ app.post('/chat', async (req, res) => {
       statusText: error.response?.statusText,
       data: error.response?.data
     });
-
-    const directResponse = generatePrompt(message);
-    if (directResponse) {
-      return res.json({ reply: directResponse });
-    }
 
     if (error.response?.status === 401) {
       return res.status(401).json({ error: 'Invalid API key or unauthorized access' });
@@ -256,8 +221,7 @@ app.get('/health', (req, res) => {
     status: 'ok', 
     timestamp: new Date().toISOString(),
     context: {
-      basic: !!BASIC_CONTEXT,
-      detailed: !!DETAILED_CONTEXT
+      loaded: !!CONTEXT
     }
   });
 });
