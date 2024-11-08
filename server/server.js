@@ -182,19 +182,19 @@ app.post('/compile', (req, res) => {
   }
 
   const tempFile = path.join(__dirname, 'temp.asm');
-  const outputFile = path.join(__dirname, 'output');
-  const objFile = path.join(__dirname, 'temp.o');
+  const outputFile = path.join(__dirname, 'output.exe');
+  const objFile = path.join(__dirname, 'temp.obj');
 
   try {
     fs.writeFileSync(tempFile, asmCode);
 
-    exec('nasm -f elf64 temp.asm && ld -o output temp.o', (error, stdout, stderr) => {
+    exec('nasm -f win64 temp.asm -o temp.obj && ld -o output.exe temp.obj', (error, stdout, stderr) => {
       if (error) {
         console.error(`Compilation error: ${stderr}`);
         return res.status(500).json({ error: 'Compilation failed', details: stderr });
       }
 
-      res.download(outputFile, 'output', (err) => {
+      res.download(outputFile, 'output.exe', (err) => {
         if (err) {
           console.error('Download error:', err);
         }
