@@ -65,5 +65,5 @@
 ## 7. Chatbot Integration  
 - [x] Build chatbot framework  
 - [x] Choose an appropriate NLP/AI model  
-- [x] Integrate model into the chatbot for interaction  
+- [x] Integrate model into the chatbot for interaction with the user  
 - [x] Test for natural responses and error handling  

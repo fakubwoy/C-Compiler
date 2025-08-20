@@ -77,7 +77,7 @@ function App() {
         const x86AssemblyCodeGenerated = generateX86Assembly(optimizedCode);
         setX86AssemblyCode(x86AssemblyCodeGenerated);
 
-        const response = await fetch('http://localhost:5000/compile', {
+        const response = await fetch('http://localhost:8000/compile', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
