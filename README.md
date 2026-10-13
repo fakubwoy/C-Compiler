@@ -239,7 +239,6 @@ The program writes `8` to stdout and exits with status 0.
 - **Errors do not stop the pipeline.** A failed semantic check is shown, but TAC, optimization and code generation still run.
 - **Constant-only back end.** The optimizer uses `eval` to fold expressions, and the assembly generator only emits code for values that folded to a constant. It never uses registers or the stack for variables, and the exit status is always 0.
 - **Target mismatch.** The assembly uses Linux `write`/`exit` syscalls with a `_start` entry, while the server assembles with `nasm -f win64` and names the output `output.exe`. The resulting binary is unlikely to run correctly on either Windows or Linux without changing the NASM format and linker step to match.
-- **Chatbot port mismatch.** `Chatbot.jsx` posts to `http://localhost:5000/chat`, but the server listens on port 8000. Change the URL to `8000` for the chatbot to work.
 - **Chatbot endpoint.** The server calls `api-inference.huggingface.co`, the legacy serverless Inference API. `context.txt` is loaded but not included in prompts.
 - **Error handler bug.** The `catch` block in `App.jsx` calls `setX86ARMCode`, which is not defined, so a parse error also raises a second error in the console.
 - **Hardcoded URLs.** The frontend calls `localhost` directly, so it only works when the browser and server run on the same machine.
